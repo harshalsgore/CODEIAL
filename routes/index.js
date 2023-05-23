@@ -3,6 +3,9 @@ const router = express.Router();
 const homeController = require('../controllers/home_controller')
 
 router.get('/', homeController.home)
-console.log("route loaded");
+router.use('/users', require('./users'))
+router.use('/posts', require('./posts'))
+
+console.log("Route Loaded");
 
 module.exports = router;
