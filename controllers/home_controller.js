@@ -1,3 +1,5 @@
-module.exports.home = function(req, resp){
-    return resp.end('<h1>Controller is up for Codeial</h1>')
+module.exports.home = function(req, res){
+    return res.render('home',{
+        title: "Home"
+    })
 }
