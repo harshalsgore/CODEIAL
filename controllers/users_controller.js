@@ -62,6 +62,6 @@ module.exports.createSession = function(req, res){
 module.exports.destroySession = function(req, res){
     req.logout(function(err) {
         if (err) { return next(err); }
-        return res.redirect('/');
+        return res.redirect('/users/sign-in');
       });
 }
