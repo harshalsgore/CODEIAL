@@ -5,6 +5,9 @@ const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./configs/mongoose');
 
+const flash = require('connect-flash');
+const customMware = require('./configs/middleware')
+
 //used for session cookie
 const session = require('express-session');
 const passport = require('passport');
@@ -62,6 +65,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(customMware.setFlash);
 
 // use express router
 app.use('/', require('./routes/index'));

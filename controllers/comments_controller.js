@@ -1,25 +1,56 @@
 const Comment = require('../models/comment')
 const Post = require('../models/post')
 
-module.exports.create = function(req, res){
-    Post.findById(req.body.post)
-    .then((post)=>{
-        Comment.create({
-            content: req.body.content,
-            user: req.user._id,
-            post: req.body.post
-        })
-        .then((comment) => {
+module.exports.create = async function(req, res){
+
+    try{
+        let post = await Post.findById(req.body.post)
+        
+        if(post){
+            let comment = await Comment.create({
+                content: req.body.content,
+                user: req.user._id,
+                post: req.body.post
+            })
+            
             post.comments.push(comment);
             post.save();
+            
+            req.flash('success','Comment Added!');
             return res.redirect('/');
-        })
-        .catch((err) => {
-            console.log("Error in adding comment",err);
-            return;
-        })
-    })
-    .catch((err)=>{
-        console.log("Post Not Found");
-    })
-} 
+        }
+    }
+    catch(err){
+        req.flash('error',err);
+        return res.redirect('back');
+    }
+}
+
+
+module.exports.destroy = async function(req, res){
+
+    try{
+        let comment = await Comment.findById(req.params.id)
+        if(comment){
+            if(comment.user == req.user.id){
+                
+                let postId = comment.post
+                comment.deleteOne();
+                
+                await Post.findByIdAndUpdate(postId, {$pull:{comments: req.params.id}})
+                
+                req.flash('success','Comment Deleted!');
+                return res.redirect('back')
+
+            }
+            else{
+                req.flash('error','You cannot delete this Comment');
+                return res.redirect('back');
+            }
+        }
+    }
+    catch(err){     
+        req.flash('error',err);
+        return res.redirect('back');
+    }
+}

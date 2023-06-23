@@ -1,9 +1,14 @@
 const passport = require('passport');
 const User = require('../models/user');
+const { response } = require('express');
 
 module.exports.profile = function(req, res){
-    return res.render('user_profile',{
-        title: "User Profile"
+    User.findById(req.params.id)
+    .then((user)=>{
+        return res.render('user_profile',{
+            title: "User Profile",
+            profile_user: user
+        })
     })
 }
 
@@ -56,12 +61,26 @@ module.exports.create = function(req, res){
 
 //SignIn and create session
 module.exports.createSession = function(req, res){
+    req.flash('success','Logged in Successfully');
     return res.redirect('/');
 }
 
 module.exports.destroySession = function(req, res){
     req.logout(function(err) {
         if (err) { return next(err); }
+        req.flash('success','Logged out Successfully');
         return res.redirect('/users/sign-in');
       });
+}
+
+module.exports.update = function(req, res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body)
+        .then(()=>{
+            return res.redirect('back')
+        })
+    }
+    else{
+        return res.status(401).send('Unauthorized')
+    }
 }
