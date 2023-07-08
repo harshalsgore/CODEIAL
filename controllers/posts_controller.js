@@ -9,12 +9,15 @@ module.exports.create = async function(req, res){
         })
 
         if(req.xhr){
+            
+            post = await post.populate('user', 'name');
+
             return res.status(200).json({
                 data:{
                     post:post
                 },
                 message: "Post Created!"
-            })
+            });
         }
 
         req.flash('success','Post Published!');
@@ -22,6 +25,7 @@ module.exports.create = async function(req, res){
     }
     catch(err){
         req.flash('error',err);
+        console.log(err);
         return res.redirect('back');
     }
 }
