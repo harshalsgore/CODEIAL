@@ -21,7 +21,10 @@
     "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.3",
+    "jsonwebtoken": "^9.0.1",
+    "multer": "*",
     "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "sass-middleware": "^0.0.3"
   },

@@ -12,6 +12,7 @@ const customMware = require('./configs/middleware')
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./configs/passport-local-strategy');
+const passportJWT = require('./configs/passport-jwt-strategy');
 const MongoStore = require('connect-mongo')(session);
 
 //Not using the below code instead using manual script to update sass files to css
@@ -31,6 +32,9 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 
 app.use(express.static('./assets'));
+
+//makes the upload path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.use(expressLayouts);
 app.set('layout extractStyles', true);
