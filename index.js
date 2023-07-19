@@ -8,6 +8,12 @@ const db = require('./configs/mongoose');
 const flash = require('connect-flash');
 const customMware = require('./configs/middleware')
 
+// setup the chat server to be used with socket.io
+const chatServer = require('http').Server(app);
+const chatSockets = require('./configs/chat_socket').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is listening on port 5000');
+
 //used for session cookie
 const session = require('express-session');
 const passport = require('passport');

@@ -27,7 +27,8 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "sass-middleware": "^0.0.3"
+    "sass-middleware": "^0.0.3",
+    "socket.io": "^4.7.1"
   },
   "devDependencies": {
     "sass": "^1.63.3"
